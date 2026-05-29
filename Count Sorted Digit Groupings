@@ -1,0 +1,53 @@
+////         Count Sorted Digit Groupings         ////
+
+
+
+
+import java.util.*;
+
+class Solution {
+
+    int[][] dp;
+    int n;
+
+    public int validGroups(String s) {
+
+        n = s.length();
+
+        dp = new int[n][901];
+
+        for (int i = 0; i < n; i++) {
+            Arrays.fill(dp[i], -1);
+        }
+
+        return solve(0, 0, s);
+    }
+
+    int solve(int index, int prevSum, String s) {
+
+        if (index == n) {
+            return 1;
+        }
+
+      
+        if (dp[index][prevSum] != -1) {
+            return dp[index][prevSum];
+        }
+
+        int currSum = 0;
+        int ways = 0;
+
+      
+        for (int i = index; i < n; i++) {
+
+            currSum += s.charAt(i) - '0';
+
+            
+            if (currSum >= prevSum) {
+                ways += solve(i + 1, currSum, s);
+            }
+        }
+
+        return dp[index][prevSum] = ways;
+    }
+}
