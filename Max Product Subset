@@ -1,0 +1,51 @@
+////           Max Product Subset          ////
+
+
+
+
+class Solution {
+    static final long MOD = 1000000007;
+
+    public int findMaxProduct(int[] arr) {
+        int n = arr.length;
+        if (n == 1) return arr[0];
+
+        long product = 1;
+        int negCount = 0;
+        int zeroCount = 0;
+        int maxNeg = Integer.MIN_VALUE;
+
+        for (int i = 0; i < n; i++) {
+            if (arr[i] == 0) {
+                zeroCount++;
+                continue;
+            }
+            if (arr[i] < 0) {
+                negCount++;
+                maxNeg = Math.max(maxNeg, arr[i]); 
+            }
+            product = (product * arr[i]) % MOD;
+        }
+ 
+        if (zeroCount == n) return 0;
+        if (negCount % 2 == 1) {
+            if (negCount == 1 && zeroCount + negCount == n) {
+              
+                return 0;
+            }
+            product = 1;
+            boolean skipped = false;
+            for (int i = 0; i < n; i++) {
+                if (arr[i] == 0) continue;
+                if (!skipped && arr[i] == maxNeg) {
+                    skipped = true;
+                    continue;
+                }
+                product = (product * arr[i]) % MOD;
+            }
+        }
+        if (n == 1) return arr[0];
+
+        return (int)((product % MOD + MOD) % MOD);
+    }
+}
