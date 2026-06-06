@@ -1,0 +1,22 @@
+/////         Non-Attacking Black and White Knights           /////
+
+
+
+class Solution {
+    static long numOfWays(int n, int m) {
+        
+        long totalWays = (long) n * m * (n * m - 1);
+        
+        long attackingWays = 0;
+        
+        if (n > 1 && m > 2) {
+            attackingWays += 4L * (n - 1) * (m - 2);
+        }
+        
+        if (n > 2 && m > 1) {
+            attackingWays += 4L * (n - 2) * (m - 1);
+        }
+        
+        return totalWays - attackingWays;
+    }
+}
