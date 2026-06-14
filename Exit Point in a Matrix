@@ -1,0 +1,37 @@
+/////             Exit Point in a Matrix               //////
+
+
+
+
+import java.util.*;
+
+class Solution {
+    public List<Integer> exitPoint(int[][] mat) {
+        int n = mat.length;
+        int m = mat[0].length;
+
+        int row = 0, col = 0;
+        int dir = 0; 
+
+        while (true) {
+            if (mat[row][col] == 1) {
+                dir = (dir + 1) % 4;
+                mat[row][col] = 0;
+            }
+
+            int nr = row, nc = col;
+
+            if (dir == 0) nc++;
+            else if (dir == 1) nr++;
+            else if (dir == 2) nc--;
+            else nr--;
+
+            if (nr < 0 || nr >= n || nc < 0 || nc >= m) {
+                return Arrays.asList(row, col);
+            }
+
+            row = nr;
+            col = nc;
+        }
+    }
+}
