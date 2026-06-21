@@ -1,0 +1,38 @@
+/////        Choose and Swap         //////
+
+
+
+
+class Solution {
+    public String chooseSwap(String s) {
+        int n = s.length();
+        char[] arr = s.toCharArray();
+        boolean[] present = new boolean[26];
+        for (char c : arr) {
+            present[c - 'a'] = true;
+        }
+
+        for (int i = 0; i < n; i++) {
+          
+            present[arr[i] - 'a'] = false;
+
+           
+            for (int ch = 0; ch < arr[i] - 'a'; ch++) {
+                if (present[ch]) {
+                    char c1 = arr[i];
+                    char c2 = (char)(ch + 'a');
+
+                   
+                    for (int j = 0; j < n; j++) {
+                        if (arr[j] == c1) arr[j] = c2;
+                        else if (arr[j] == c2) arr[j] = c1;
+                    }
+
+                    return new String(arr);
+                }
+            }
+        }
+
+        return s;
+    }
+}
