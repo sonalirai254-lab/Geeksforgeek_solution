@@ -1,0 +1,35 @@
+//////           N-Digit Numbers with Increasing Digits           ///////
+
+
+
+
+
+import java.util.*;
+
+class Solution {
+    public ArrayList<Integer> increasingNumbers(int n) {
+        ArrayList<Integer> result = new ArrayList<>();
+        
+        if (n > 10) return result;
+         if (n == 1) {
+            for (int i = 0; i <= 9; i++) {
+                result.add(i);
+            }
+            return result;
+        }
+        
+        generate(n, 1, "", result);
+        return result;
+    }
+    
+    private void generate(int n, int start, String current, ArrayList<Integer> result) {
+        if (current.length() == n) {
+            result.add(Integer.parseInt(current));
+            return;
+        }
+        
+        for (int digit = start; digit <= 9; digit++) {
+            generate(n, digit + 1, current + digit, result);
+        }
+    }
+}
