@@ -1,0 +1,22 @@
+///////           Max Subarray Sum by Removing At Most One           ///////
+
+
+
+
+class Solution {
+    public int maxSumSubarray(int[] arr) {
+        int n = arr.length;
+
+        int noSkip = arr[0];
+        int oneSkip = 0;
+        int ans = arr[0];
+
+        for (int i = 1; i < n; i++) {
+            oneSkip = Math.max(noSkip, oneSkip + arr[i]);
+            noSkip = Math.max(arr[i], noSkip + arr[i]);
+            ans = Math.max(ans, Math.max(noSkip, oneSkip));
+        }
+
+        return ans;
+    }
+}
