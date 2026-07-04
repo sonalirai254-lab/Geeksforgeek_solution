@@ -1,0 +1,54 @@
+//////          Substrings with more 1's than 0's           //////
+
+
+
+
+class Solution {
+    int countSubstring(String s) {
+        int n = s.length();
+        int offset = n + 2;
+        int size = 2 * n + 5;
+
+        Fenwick bit = new Fenwick(size);
+        int prefix = 0;
+        long ans = 0;
+
+        bit.add(prefix + offset, 1);
+
+        for (int i = 0; i < n; i++) {
+            if (s.charAt(i) == '1')
+                prefix++;
+            else
+                prefix--;
+
+            ans += bit.sum(prefix + offset - 1);
+            bit.add(prefix + offset, 1);
+        }
+
+        return (int) ans;
+    }
+
+    static class Fenwick {
+        long[] tree;
+
+        Fenwick(int n) {
+            tree = new long[n + 1];
+        }
+
+        void add(int idx, long val) {
+            while (idx < tree.length) {
+                tree[idx] += val;
+                idx += idx & -idx;
+            }
+        }
+
+        long sum(int idx) {
+            long res = 0;
+            while (idx > 0) {
+                res += tree[idx];
+                idx -= idx & -idx;
+            }
+            return res;
+        }
+    }
+}
