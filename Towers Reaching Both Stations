@@ -1,0 +1,78 @@
+///////             Towers Reaching Both Stations                 ///////
+
+
+
+
+
+import java.util.*;
+
+class Solution {
+    int[] dx = {0, 0, -1, 1};
+    int[] dy = {1, -1, 0, 0};
+
+    public int countCoordinates(int[][] mat) {
+        int n = mat.length;
+        int m = mat[0].length;
+
+        boolean[][] reachP = new boolean[n][m];
+        boolean[][] reachQ = new boolean[n][m];
+
+        Queue<int[]> qP = new LinkedList<>();
+        Queue<int[]> qQ = new LinkedList<>();
+
+        for (int j = 0; j < m; j++) {
+            qP.add(new int[]{0, j});
+            reachP[0][j] = true;
+
+            qQ.add(new int[]{n - 1, j});
+            reachQ[n - 1][j] = true;
+        }
+
+        for (int i = 0; i < n; i++) {
+            qP.add(new int[]{i, 0});
+            reachP[i][0] = true;
+
+            qQ.add(new int[]{i, m - 1});
+            reachQ[i][m - 1] = true;
+        }
+
+        bfs(mat, qP, reachP);
+        bfs(mat, qQ, reachQ);
+
+        int ans = 0;
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (reachP[i][j] && reachQ[i][j]) {
+                    ans++;
+                }
+            }
+        }
+
+        return ans;
+    }
+
+    void bfs(int[][] mat, Queue<int[]> q, boolean[][] vis) {
+        int n = mat.length;
+        int m = mat[0].length;
+
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
+            int x = cur[0];
+            int y = cur[1];
+
+            for (int k = 0; k < 4; k++) {
+                int nx = x + dx[k];
+                int ny = y + dy[k];
+
+                if (nx >= 0 && ny >= 0 && nx < n && ny < m 
+                    && !vis[nx][ny] 
+                    && mat[nx][ny] >= mat[x][y]) {
+                    
+                    vis[nx][ny] = true;
+                    q.add(new int[]{nx, ny});
+                }
+            }
+        }
+    }
+}
