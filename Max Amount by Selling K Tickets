@@ -1,0 +1,35 @@
+/////////                      Max Amount by Selling K Tickets                         ////////////
+
+
+
+
+import java.util.*;
+
+class Solution {
+    static final long MOD = 1000000007L;
+
+    public int maxAmount(int[] arr, int k) {
+        PriorityQueue<Integer> maxHeap =
+                new PriorityQueue<>(Collections.reverseOrder());
+
+        for (int tickets : arr) {
+            maxHeap.offer(tickets);
+        }
+
+        long earning = 0;
+
+        while (k > 0 && !maxHeap.isEmpty()) {
+            int current = maxHeap.poll();
+
+            earning = (earning + current) % MOD;
+            current--;
+            k--;
+
+            if (current > 0) {
+                maxHeap.offer(current);
+            }
+        }
+
+        return (int) earning;
+    }
+}
