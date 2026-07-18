@@ -1,0 +1,69 @@
+//////////               Cut Matrix                ////////////
+
+
+
+
+class Solution {
+    static final int MOD = 1000000007;
+
+    public int findWays(int[][] a, int k) {
+        int n = a.length, m = a[0].length;
+        int[][] ones = new int[n + 1][m + 1];
+
+        for (int i = n - 1; i >= 0; i--)
+            for (int j = m - 1; j >= 0; j--)
+                ones[i][j] = a[i][j] + ones[i + 1][j]
+                        + ones[i][j + 1] - ones[i + 1][j + 1];
+
+        if (ones[0][0] < k) return 0;
+
+        int[][] dp = new int[n][m];
+
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < m; j++)
+                dp[i][j] = ones[i][j] > 0 ? 1 : 0;
+
+        for (int p = 2; p <= k; p++) {
+            int[][] row = new int[n + 1][m];
+            int[][] col = new int[n][m + 1];
+
+            for (int j = 0; j < m; j++)
+                for (int i = n - 1; i >= 0; i--)
+                    row[i][j] = (row[i + 1][j] + dp[i][j]) % MOD;
+
+            for (int i = 0; i < n; i++)
+                for (int j = m - 1; j >= 0; j--)
+                    col[i][j] = (col[i][j + 1] + dp[i][j]) % MOD;
+
+            int[][] next = new int[n][m];
+
+            for (int r = 0; r < n; r++) {
+                for (int c = 0; c < m; c++) {
+                    if (ones[r][c] < p) continue;
+
+                    int lo = r + 1, hi = n;
+                    while (lo < hi) {
+                        int mid = (lo + hi) / 2;
+                        if (ones[mid][c] < ones[r][c]) hi = mid;
+                        else lo = mid + 1;
+                    }
+                    if (lo < n) next[r][c] = row[lo][c];
+
+                    lo = c + 1;
+                    hi = m;
+                    while (lo < hi) {
+                        int mid = (lo + hi) / 2;
+                        if (ones[r][mid] < ones[r][c]) hi = mid;
+                        else lo = mid + 1;
+                    }
+                    if (lo < m)
+                        next[r][c] = (next[r][c] + col[r][lo]) % MOD;
+                }
+            }
+
+            dp = next;
+        }
+
+        return dp[0][0];
+    }
+}
