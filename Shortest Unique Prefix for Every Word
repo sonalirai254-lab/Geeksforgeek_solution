@@ -1,0 +1,53 @@
+//////////////                  Shortest Unique Prefix for Every Word                   //////////////
+
+
+
+
+
+import java.util.*;
+
+class Solution {
+    static class TrieNode {
+        TrieNode[] child = new TrieNode[26];
+        int count;
+    }
+
+    public ArrayList<String> findPrefixes(ArrayList<String> arr) {
+        TrieNode root = new TrieNode();
+
+        for (String word : arr) {
+            TrieNode node = root;
+
+            for (char ch : word.toCharArray()) {
+                int index = ch - 'a';
+
+                if (node.child[index] == null) {
+                    node.child[index] = new TrieNode();
+                }
+
+                node = node.child[index];
+                node.count++;
+            }
+        }
+
+        ArrayList<String> result = new ArrayList<>();
+
+        for (String word : arr) {
+            TrieNode node = root;
+            StringBuilder prefix = new StringBuilder();
+
+            for (char ch : word.toCharArray()) {
+                node = node.child[ch - 'a'];
+                prefix.append(ch);
+
+                if (node.count == 1) {
+                    break;
+                }
+            }
+
+            result.add(prefix.toString());
+        }
+
+        return result;
+    }
+}
