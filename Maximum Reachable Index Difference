@@ -1,0 +1,30 @@
+/////////                      Maximum Reachable Index Difference                         //////////
+
+
+
+
+class Solution {
+    public int maxIndexDifference(String s) {
+        int[] farthest = new int[26];
+        java.util.Arrays.fill(farthest, -1);
+
+        int answer = -1;
+
+        for (int i = s.length() - 1; i >= 0; i--) {
+            int ch = s.charAt(i) - 'a';
+            int end = i;
+
+            if (ch < 25 && farthest[ch + 1] != -1) {
+                end = farthest[ch + 1];
+            }
+
+            farthest[ch] = Math.max(farthest[ch], end);
+
+            if (ch == 0) {
+                answer = Math.max(answer, end - i);
+            }
+        }
+
+        return answer;
+    }
+}
