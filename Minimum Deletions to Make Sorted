@@ -1,0 +1,31 @@
+///////////                  Minimum Deletions to Make Sorted                         /////////////
+
+
+
+
+
+
+class Solution {
+    public int minDeletions(int[] arr) {
+        int[] tail = new int[arr.length];
+        int len = 0;
+
+        for (int x : arr) {
+            int left = 0, right = len;
+
+            while (left < right) {
+                int mid = left + (right - left) / 2;
+
+                if (tail[mid] < x)
+                    left = mid + 1;
+                else
+                    right = mid;
+            }
+
+            tail[left] = x;
+            if (left == len) len++;
+        }
+
+        return arr.length - len;
+    }
+}
