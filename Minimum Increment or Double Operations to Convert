@@ -1,0 +1,23 @@
+/////////////                     Minimum Increment or Double Operations to Convert                        ////////////////
+
+
+
+
+class Solution {
+    int countMinOperations(int[] arr) {
+        int operations = 0;
+        int maxElement = 0;
+
+        for (int num : arr) {
+            operations += Integer.bitCount(num);
+            maxElement = Math.max(maxElement, num);
+        }
+
+        while (maxElement > 1) {
+            maxElement /= 2;
+            operations++;
+        }
+
+        return operations;
+    }
+}
