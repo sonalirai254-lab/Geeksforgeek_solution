@@ -1,0 +1,24 @@
+//////////////                Friends Pairing Problem                 /////////////////
+
+
+
+
+
+class Solution {
+    public long countFriendsPairings(int n) {
+        if (n <= 2) {
+            return n;
+        }
+
+        long prev2 = 1;
+        long prev1 = 2; 
+
+        for (int friends = 3; friends <= n; friends++) {
+            long current = prev1 + (friends - 1L) * prev2;
+            prev2 = prev1;
+            prev1 = current;
+        }
+
+        return prev1;
+    }
+}
