@@ -1,0 +1,59 @@
+/////////////////                   Largest Zigzag Sequence                   //////////////////
+
+
+
+
+
+
+class Solution {
+    public int zigzagSequence(int[][] mat) {
+        int n = mat.length;
+
+        if (n == 1) {
+            return mat[0][0];
+        }
+
+        int[] prev = new int[n];
+
+        for (int j = 0; j < n; j++) {
+            prev[j] = mat[0][j];
+        }
+
+        for (int i = 1; i < n; i++) {
+
+            int max1 = Integer.MIN_VALUE;
+            int max2 = Integer.MIN_VALUE;
+            int maxIndex = -1;
+
+            for (int j = 0; j < n; j++) {
+                if (prev[j] > max1) {
+                    max2 = max1;
+                    max1 = prev[j];
+                    maxIndex = j;
+                } else if (prev[j] > max2) {
+                    max2 = prev[j];
+                }
+            }
+
+            int[] curr = new int[n];
+
+            for (int j = 0; j < n; j++) {
+                if (j == maxIndex) {
+                    curr[j] = mat[i][j] + max2;
+                } else {
+                    curr[j] = mat[i][j] + max1;
+                }
+            }
+
+            prev = curr;
+        }
+
+        int ans = Integer.MIN_VALUE;
+
+        for (int value : prev) {
+            ans = Math.max(ans, value);
+        }
+
+        return ans;
+    }
+}
