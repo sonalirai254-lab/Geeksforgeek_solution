@@ -1,0 +1,66 @@
+////////////////                  Adventure in a Maze                   ////////////////
+
+
+
+
+
+import java.util.*;
+
+class Solution {
+    static final long MOD = 1000000007L;
+
+    public ArrayList<Integer> findWays(int[][] grid) {
+        int n = grid.length;
+
+        long[][] paths = new long[n][n];
+        int[][] maxAdventure = new int[n][n];
+
+        paths[0][0] = 1;
+        maxAdventure[0][0] = grid[0][0];
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+
+                if (paths[i][j] == 0) {
+                    continue;
+                }
+
+                int value = grid[i][j];
+
+                if ((value == 1 || value == 3) && j + 1 < n) {
+
+                    paths[i][j + 1] =
+                        (paths[i][j + 1] + paths[i][j]) % MOD;
+
+                    maxAdventure[i][j + 1] = Math.max(
+                        maxAdventure[i][j + 1],
+                        maxAdventure[i][j] + grid[i][j + 1]
+                    );
+                }
+
+                if ((value == 2 || value == 3) && i + 1 < n) {
+
+                    paths[i + 1][j] =
+                        (paths[i + 1][j] + paths[i][j]) % MOD;
+
+                    maxAdventure[i + 1][j] = Math.max(
+                        maxAdventure[i + 1][j],
+                        maxAdventure[i][j] + grid[i + 1][j]
+                    );
+                }
+            }
+        }
+
+        ArrayList<Integer> ans = new ArrayList<>();
+
+        ans.add((int) paths[n - 1][n - 1]);
+
+        if (paths[n - 1][n - 1] == 0) {
+            ans.add(0);
+        } else {
+            ans.add(maxAdventure[n - 1][n - 1]);
+        }
+
+        return ans;
+    }
+}
