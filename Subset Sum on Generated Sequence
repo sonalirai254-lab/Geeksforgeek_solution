@@ -1,0 +1,46 @@
+////////////////              Subset Sum on Generated Sequence                ////////////////
+
+
+
+
+
+class Solution {
+    public boolean isPossible(int[] arr, int s, int x) {
+        if (x == 0) return true;
+
+        long target = x;
+        long sum = s;
+
+        if (sum <= target) {
+
+        }
+
+        long[] seq = new long[arr.length + 1];
+        int size = 0;
+
+        seq[size++] = s;
+
+        for (int val : arr) {
+            long next = sum + val;
+
+            if (next > target) {
+                break;
+            }
+
+            seq[size++] = next;
+            sum += next;
+        }
+
+        for (int i = size - 1; i >= 0; i--) {
+            if (seq[i] <= target) {
+                target -= seq[i];
+            }
+
+            if (target == 0) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+}
