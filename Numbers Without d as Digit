@@ -1,0 +1,56 @@
+////////////////                       Numbers Without d as Digit                        //////////////////
+
+
+
+
+
+class Solution {
+    private String num;
+    private int forbidden;
+    private Integer[][][] dp;
+
+    public int countWithout(int n, int d) {
+        if (n <= 0) return 0;
+
+        num = String.valueOf(n);
+        forbidden = d;
+
+        dp = new Integer[num.length()][2][2];
+
+        return solve(0, 1, 0);
+    }
+
+    private int solve(int pos, int tight, int started) {
+        if (pos == num.length()) {
+            return started == 1 ? 1 : 0;
+        }
+
+        if (dp[pos][tight][started] != null) {
+            return dp[pos][tight][started];
+        }
+
+        int limit = (tight == 1)
+                ? num.charAt(pos) - '0'
+                : 9;
+
+        int ans = 0;
+
+        for (int digit = 0; digit <= limit; digit++) {
+
+            int newTight =
+                    (tight == 1 && digit == limit) ? 1 : 0;
+
+            if (started == 0 && digit == 0) {
+                ans += solve(pos + 1, newTight, 0);
+            } else {
+                if (digit == forbidden) {
+                    continue;
+                }
+
+                ans += solve(pos + 1, newTight, 1);
+            }
+        }
+
+        return dp[pos][tight][started] = ans;
+    }
+}
