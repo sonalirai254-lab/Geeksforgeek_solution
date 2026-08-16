@@ -1,0 +1,50 @@
+///////////////////                Min Product Subset                     ////////////////
+
+
+
+
+
+class Solution {
+    public int minProd(int[] arr) {
+        int n = arr.length;
+
+        int product = 1;
+        int negativeCount = 0;
+        int zeroCount = 0;
+        int maxNegative = Integer.MIN_VALUE;
+        int minPositive = Integer.MAX_VALUE;
+
+        for (int x : arr) {
+            if (x == 0) {
+                zeroCount++;
+                continue;
+            }
+
+            if (x < 0) {
+                negativeCount++;
+                maxNegative = Math.max(maxNegative, x);
+            } else {
+                minPositive = Math.min(minPositive, x);
+            }
+
+            product *= x;
+        }
+
+        if (zeroCount == n) {
+            return 0;
+        }
+
+        if (negativeCount == 0) {
+            if (zeroCount > 0) {
+                return 0;
+            }
+            return minPositive;
+        }
+
+        if (negativeCount % 2 == 0) {
+            product /= maxNegative;
+        }
+
+        return product;
+    }
+}
