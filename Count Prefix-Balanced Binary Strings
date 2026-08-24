@@ -1,0 +1,48 @@
+//////////////////////                        Count Prefix-Balanced Binary Strings                        /////////////////////
+
+
+
+
+
+class Solution {
+    static final long MOD = 1000000007L;
+
+    public int prefixStrings(int n) {
+        long[] fact = new long[2 * n + 1];
+
+       
+        fact[0] = 1;
+        for (int i = 1; i <= 2 * n; i++) {
+            fact[i] = (fact[i - 1] * i) % MOD;
+        }
+
+
+        long numerator = fact[2 * n];
+
+        long denominator = (fact[n] * fact[n]) % MOD;
+        denominator = (denominator * (n + 1)) % MOD;
+
+        long answer = (numerator * modInverse(denominator)) % MOD;
+
+        return (int) answer;
+    }
+
+    static long modInverse(long x) {
+        return power(x, MOD - 2);
+    }
+
+    static long power(long base, long exponent) {
+        long result = 1;
+
+        while (exponent > 0) {
+            if (exponent % 2 == 1) {
+                result = (result * base) % MOD;
+            }
+
+            base = (base * base) % MOD;
+            exponent /= 2;
+        }
+
+        return result;
+    }
+}
