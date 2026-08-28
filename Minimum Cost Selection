@@ -1,0 +1,26 @@
+///////////////////                        Minimum Cost Selection                     ////////////////////
+
+
+
+
+class Solution {
+    public int minCost(int[][] mat) {
+        int n = mat.length;
+
+        int a = mat[0][0];
+        int b = mat[0][1];
+        int c = mat[0][2];
+
+        for (int i = 1; i < n; i++) {
+            int newA = mat[i][0] + Math.min(b, c);
+            int newB = mat[i][1] + Math.min(a, c);
+            int newC = mat[i][2] + Math.min(a, b);
+
+            a = newA;
+            b = newB;
+            c = newC;
+        }
+
+        return Math.min(a, Math.min(b, c));
+    }
+}
