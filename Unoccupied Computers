@@ -1,0 +1,46 @@
+//////////////////////                   Unoccupied Computers                       ////////////////////////
+
+
+
+
+
+class Solution {
+    public int solve(int n, String s) {
+
+        int[] status = new int[26];
+
+        int available = n;
+        int rejected = 0;
+
+        for (char ch : s.toCharArray()) {
+
+            int idx = ch - 'A';
+
+           
+            if (status[idx] == 0) {
+
+                if (available > 0) {
+                    
+                    status[idx] = 1;
+                    available--;
+                } else {
+                   
+                    status[idx] = 2;
+                    rejected++;
+                }
+
+            } 
+           
+            else if (status[idx] == 1) {
+
+              
+                available++;
+                status[idx] = 0;
+            }
+
+            
+        }
+
+        return rejected;
+    }
+}
