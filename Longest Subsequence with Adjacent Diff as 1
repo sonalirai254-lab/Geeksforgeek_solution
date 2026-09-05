@@ -1,0 +1,35 @@
+////////////////////////                        Longest Subsequence with Adjacent Diff as 1                        /////////////////////////
+
+
+
+
+
+import java.util.HashMap;
+
+class Solution {
+    public int longestSubseq(int[] arr) {
+        HashMap<Integer, Integer> dp = new HashMap<>();
+
+        int ans = 1;
+
+        for (int num : arr) {
+            int current = 1;
+
+            if (dp.containsKey(num - 1)) {
+                current = Math.max(current, dp.get(num - 1) + 1);
+            }
+
+           
+            if (dp.containsKey(num + 1)) {
+                current = Math.max(current, dp.get(num + 1) + 1);
+            }
+
+           
+            dp.put(num, Math.max(dp.getOrDefault(num, 0), current));
+
+            ans = Math.max(ans, dp.get(num));
+        }
+
+        return ans;
+    }
+}
