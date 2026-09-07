@@ -1,0 +1,85 @@
+///////////////////////                  Minimum Elements Outside Subsequences                    /////////////////////////
+
+
+
+
+
+
+class Solution {
+    public int minCount(int[] arr) {
+        int n = arr.length;
+
+      
+        int[][] dp = new int[n + 1][n + 1];
+
+        
+        for (int i = 0; i <= n; i++) {
+            for (int j = 0; j <= n; j++) {
+                dp[i][j] = -1;
+            }
+        }
+
+    
+        dp[n][n] = 0;
+
+        for (int k = 0; k < n; k++) {
+
+            int[][] next = new int[n + 1][n + 1];
+
+            for (int i = 0; i <= n; i++) {
+                for (int j = 0; j <= n; j++) {
+                    next[i][j] = -1;
+                }
+            }
+
+            for (int inc = 0; inc <= n; inc++) {
+                for (int dec = 0; dec <= n; dec++) {
+
+                    if (dp[inc][dec] == -1) {
+                        continue;
+                    }
+
+                    int current = arr[k];
+
+                  
+                    next[inc][dec] = Math.max(
+                        next[inc][dec],
+                        dp[inc][dec]
+                    );
+
+                  
+                    if (inc == n || arr[inc] < current) {
+                        next[k][dec] = Math.max(
+                            next[k][dec],
+                            dp[inc][dec] + 1
+                        );
+                    }
+
+                   
+                    if (dec == n || arr[dec] > current) {
+                        next[inc][k] = Math.max(
+                            next[inc][k],
+                            dp[inc][dec] + 1
+                        );
+                    }
+                }
+            }
+
+            dp = next;
+        }
+
+    
+        int maxUsed = 0;
+
+        for (int i = 0; i <= n; i++) {
+            for (int j = 0; j <= n; j++) {
+                maxUsed = Math.max(maxUsed, dp[i][j]);
+            }
+        }
+
+    
+        return n - maxUsed;
+    }
+}
+
+
