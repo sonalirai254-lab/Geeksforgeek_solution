@@ -1,0 +1,51 @@
+///////////////////////////                         Max Digit Sum Number in 1 to n                        ////////////////////////////
+
+
+
+
+
+class Solution {
+    public int findMax(int n) {
+        int ans = n;
+        int maxSum = digitSum(n);
+
+        int power = 10;
+
+        while (power <= n) {
+           
+            int prefix = n / power;
+
+         
+            int candidate = (prefix - 1) * power + (power - 1);
+
+            if (candidate >= 1 && candidate <= n) {
+                int sum = digitSum(candidate);
+
+                if (sum > maxSum || (sum == maxSum && candidate > ans)) {
+                    maxSum = sum;
+                    ans = candidate;
+                }
+            }
+
+          
+            if (power > n / 10) {
+                break;
+            }
+
+            power *= 10;
+        }
+
+        return ans;
+    }
+
+    private int digitSum(int x) {
+        int sum = 0;
+
+        while (x > 0) {
+            sum += x % 10;
+            x /= 10;
+        }
+
+        return sum;
+    }
+}
