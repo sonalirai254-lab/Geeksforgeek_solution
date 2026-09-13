@@ -1,0 +1,76 @@
+///////////////////////                             Party in Town                             //////////////////////
+
+
+
+
+
+import java.util.*;
+
+class Solution {
+
+    static class Pair {
+        int node;
+        int dist;
+
+        Pair(int node, int dist) {
+            this.node = node;
+            this.dist = dist;
+        }
+    }
+
+    static Pair bfs(ArrayList<ArrayList<Integer>> adj, int start) {
+
+        int n = adj.size();
+
+        int[] dist = new int[n];
+        Arrays.fill(dist, -1);
+
+        Queue<Integer> q = new LinkedList<>();
+
+        dist[start] = 0;
+        q.add(start);
+
+        int farthestNode = start;
+        int farthestDist = 0;
+
+        while (!q.isEmpty()) {
+
+            int node = q.poll();
+
+            for (int next : adj.get(node)) {
+
+                
+                next--;
+
+                if (dist[next] == -1) {
+
+                    dist[next] = dist[node] + 1;
+                    q.add(next);
+
+                    if (dist[next] > farthestDist) {
+                        farthestDist = dist[next];
+                        farthestNode = next;
+                    }
+                }
+            }
+        }
+
+        return new Pair(farthestNode, farthestDist);
+    }
+
+    static int partyHouse(ArrayList<ArrayList<Integer>> adj) {
+
+        
+        Pair first = bfs(adj, 0);
+
+        int diameterEnd = first.node;
+
+       
+        Pair second = bfs(adj, diameterEnd);
+
+        int diameter = second.dist;
+
+       
+        return (diameter + 1) / 2;
+    }
+}
