@@ -1,0 +1,51 @@
+////////////////////////                        Visit Leaves with Budget                          ///////////////////////
+
+
+
+
+
+
+class Solution {
+    public int getCount(Node root, int k) {
+        ArrayList<Integer> costs = new ArrayList<>();
+        Queue<Node> q = new LinkedList<>();
+        Queue<Integer> levels = new LinkedList<>();
+
+        q.offer(root);
+        levels.offer(1);
+
+        while (!q.isEmpty()) {
+            Node node = q.poll();
+            int level = levels.poll();
+
+            if (node.left == null && node.right == null) {
+                costs.add(level);
+            }
+
+            if (node.left != null) {
+                q.offer(node.left);
+                levels.offer(level + 1);
+            }
+
+            if (node.right != null) {
+                q.offer(node.right);
+                levels.offer(level + 1);
+            }
+        }
+
+        Collections.sort(costs);
+
+        int count = 0;
+        int sum = 0;
+
+        for (int cost : costs) {
+            if (sum + cost > k) {
+                break;
+            }
+            sum += cost;
+            count++;
+        }
+
+        return count;
+    }
+}
