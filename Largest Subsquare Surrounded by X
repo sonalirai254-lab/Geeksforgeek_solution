@@ -1,0 +1,34 @@
+// Largest Subsquare Surrounded by X //
+
+
+class Solution:
+    def largestSubsquare(self, mat):
+        n = len(mat)
+
+        right = [[0] * n for _ in range(n)]
+        down = [[0] * n for _ in range(n)]
+
+        # Fill right and down arrays
+        for i in range(n - 1, -1, -1):
+            for j in range(n - 1, -1, -1):
+                if mat[i][j] == 'X':
+                    right[i][j] = 1 + (right[i][j + 1] if j + 1 < n else 0)
+                    down[i][j] = 1 + (down[i + 1][j] if i + 1 < n else 0)
+
+        ans = 0
+
+        for i in range(n):
+            for j in range(n):
+                possible = min(right[i][j], down[i][j])
+
+                while possible > ans:
+                    r = i + possible - 1
+                    c = j + possible - 1
+
+                    if right[r][j] >= possible and down[i][c] >= possible:
+                        ans = possible
+                        break
+
+                    possible -= 1
+
+        return ans
