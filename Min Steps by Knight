@@ -1,0 +1,50 @@
+//////////////////////////////                      Min Steps by Knight                      ////////////////////////////////
+
+
+
+
+
+class Solution {
+    public int minStepToReachTarget(int KnightPos[], int TargetPos[], int N) {
+
+        if (KnightPos[0] == TargetPos[0] && KnightPos[1] == TargetPos[1]) {
+            return 0;
+        }
+
+        int[] dx = {2, 2, -2, -2, 1, 1, -1, -1};
+        int[] dy = {1, -1, 1, -1, 2, -2, 2, -2};
+
+        boolean[][] visited = new boolean[N + 1][N + 1];
+
+        java.util.Queue<int[]> q = new java.util.LinkedList<>();
+
+        q.offer(new int[]{KnightPos[0], KnightPos[1], 0});
+        visited[KnightPos[0]][KnightPos[1]] = true;
+
+        while (!q.isEmpty()) {
+            int[] curr = q.poll();
+
+            int x = curr[0];
+            int y = curr[1];
+            int steps = curr[2];
+
+            for (int i = 0; i < 8; i++) {
+                int nx = x + dx[i];
+                int ny = y + dy[i];
+
+                if (nx >= 1 && nx <= N && ny >= 1 && ny <= N 
+                    && !visited[nx][ny]) {
+
+                    if (nx == TargetPos[0] && ny == TargetPos[1]) {
+                        return steps + 1;
+                    }
+
+                    visited[nx][ny] = true;
+                    q.offer(new int[]{nx, ny, steps + 1});
+                }
+            }
+        }
+
+        return -1;
+    }
+}
