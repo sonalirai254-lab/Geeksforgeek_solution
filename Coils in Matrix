@@ -1,0 +1,57 @@
+///////////////////////////////                         Coils in Matrix                           //////////////////////////////
+
+
+
+
+
+
+import java.util.*;
+
+class Solution {
+    public ArrayList<ArrayList<Integer>> formCoils(int n) {
+        int N = 4 * n;
+        int total = N * N;
+
+        ArrayList<ArrayList<Integer>> res = new ArrayList<>();
+        ArrayList<Integer> coil1 = new ArrayList<>();
+        ArrayList<Integer> coil2 = new ArrayList<>();
+
+        int top = 0;
+        int bottom = N - 1;
+        int left = 0;
+        int right = N - 2;
+
+        while (coil1.size() < total / 2) {
+
+            for (int i = top; i <= bottom; i++) {
+                coil1.add(i * N + left + 1);
+            }
+
+            for (int j = left + 1; j <= right; j++) {
+                coil1.add(bottom * N + j + 1);
+            }
+
+            for (int i = bottom - 1; i > top; i--) {
+                coil1.add(i * N + right + 1);
+            }
+
+            for (int j = right - 1; j > left + 1; j--) {
+                coil1.add((top + 1) * N + j + 1);
+            }
+
+            top += 2;
+            bottom -= 2;
+            left += 2;
+            right -= 2;
+        }
+
+        for (int x : coil1) {
+            coil2.add(total + 1 - x);
+        }
+
+        res.add(coil1);
+        res.add(coil2);
+
+        return res;
+    }
+}
