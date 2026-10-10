@@ -1,0 +1,15 @@
+//////////////////////////////                          Sort Two Parts Sorted                         //////////////////////////////
+
+
+
+
+
+
+
+import java.util.Arrays;
+
+class Solution {
+    public void mergeTwoParts(int[] arr) {
+        Arrays.sort(arr);
+    }
+}
