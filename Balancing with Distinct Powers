@@ -1,0 +1,29 @@
+//////////////////////////////                               Balancing with Distinct Powers                             /////////////////////////////
+
+
+
+
+
+
+
+class Solution {
+    public boolean balancePan(int a, int b) {
+        long target = b;
+        long base = a;
+
+        while (target > 0) {
+            long rem = target % base;
+
+            if (rem == 0 || rem == 1) {
+                target /= base;
+            } else if (rem == base - 1) {
+                target = target / base + 1;
+            } else {
+                return false;
+            }
+        }
+
+        return true;
+    }
+}
+
