@@ -1,0 +1,23 @@
+///////////////////////////                        Roll Characters of String                       ////////////////////////////
+
+
+
+
+
+class Solution:
+    def findRollOut(self, s, roll):
+        n = len(s)
+        diff = [0] * (n + 1)
+
+        for x in roll:
+            diff[0] += 1
+            diff[x] -= 1
+
+        count = 0
+        arr = list(s)
+
+        for i in range(n):
+            count = (count + diff[i]) % 26
+            arr[i] = chr((ord(arr[i]) - ord('a') + count) % 26 + ord('a'))
+
+        return ''.join(arr)
