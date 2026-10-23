@@ -1,0 +1,51 @@
+//  Count Pairs Violating BST Property
+
+
+
+''' BST Node Structure
+class Node:
+    def __init__(self, val):
+        self.data = val
+        self.left = None
+        self.right = None
+'''
+
+class Solution:
+    def pairsViolatingBST(self, root):
+        arr=[]
+        def ino(cur=root):
+            nonlocal arr
+            if not cur:
+                return
+            ino(cur.left)
+            arr.append(cur.data)
+            ino(cur.right)
+        ino()
+        ret=0
+        def ms(arr=arr):
+            nonlocal ret
+            if len(arr)<=1:
+                return arr
+            lth=len(arr)
+            left=ms(arr[:lth//2])
+            right=ms(arr[lth//2:])
+            tmp=[]
+            l=r=0
+            ll=len(left)
+            rr=len(right)
+            while l<ll and r<rr:
+                if left[l]>right[r]:
+                    ret+=ll-l
+                    tmp.append(right[r])
+                    r+=1
+                else:
+                    tmp.append(left[l])
+                    l+=1
+            if l<ll:
+                tmp.extend(left[l:])
+            if r<rr:
+                tmp.extend(right[r:])
+            return tmp
+        ms()
+        return ret
+
