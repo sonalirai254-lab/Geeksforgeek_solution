@@ -1,0 +1,49 @@
+////////////////////////////////                             Minimize Max Min Diff with Subarray Removal                             ///////////////////////////////
+
+
+
+
+
+
+
+import java.util.*;
+
+class Solution {
+    public int minDiff(int k, int[] arr) {
+        int n = arr.length;
+
+        if (k == n) {
+            return 0;
+        }
+
+        TreeMap<Integer, Integer> map = new TreeMap<>();
+
+       
+        for (int i = k; i < n; i++) {
+            map.put(arr[i], map.getOrDefault(arr[i], 0) + 1);
+        }
+
+        int ans = map.lastKey() - map.firstKey();
+
+       
+        for (int i = 0; i < n - k; i++) {
+
+           
+            map.put(arr[i], map.getOrDefault(arr[i], 0) + 1);
+
+          
+            int val = arr[i + k];
+
+            if (map.get(val) == 1) {
+                map.remove(val);
+            } else {
+                map.put(val, map.get(val) - 1);
+            }
+
+            ans = Math.min(ans, map.lastKey() - map.firstKey());
+        }
+
+        return ans;
+    }
+}
+
