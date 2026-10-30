@@ -1,0 +1,53 @@
+/////////////////////////////////                            Subsets with MEX in Range                             //////////////////////////////////
+
+
+
+
+
+
+
+class Solution {
+    static final long MOD = 1000000007L;
+
+    public int cntSubsets(int[] arr, int l, int r) {
+        int n = arr.length;
+
+        long[] freq = new long[n + 1];
+
+        for (int x : arr) {
+            if (x <= n) {
+                freq[x]++;
+            }
+        }
+
+        long[] pow2 = new long[n + 1];
+        pow2[0] = 1;
+
+        for (int i = 1; i <= n; i++) {
+            pow2[i] = (pow2[i - 1] * 2) % MOD;
+        }
+
+        long prefix = 1;
+        long ans = 0;
+        long remaining = n;
+
+        for (int mex = 0; mex <= r; mex++) {
+
+            if (mex > 0) {
+                long count = freq[mex - 1];
+
+                prefix = (prefix * 
+                    ((pow2[(int) count] - 1 + MOD) % MOD)) % MOD;
+
+                remaining -= count;
+            }
+
+            if (mex >= l) {
+                long ways = (prefix * pow2[(int) (remaining - freq[mex])]) % MOD;
+                ans = (ans + ways) % MOD;
+            }
+        }
+
+        return (int) ans;
+    }
+}
