@@ -1,0 +1,59 @@
+//////////////////////////////////                              Common Nodes in Two BSTs                           //////////////////////////////////
+
+
+
+
+
+
+
+
+class Solution {
+    public ArrayList<Integer> findCommon(Node r1, Node r2) {
+
+        ArrayList<Integer> ans = new ArrayList<>();
+
+        Stack<Node> s1 = new Stack<>();
+        Stack<Node> s2 = new Stack<>();
+
+        Node curr1 = r1;
+        Node curr2 = r2;
+
+        while (curr1 != null || curr2 != null ||
+               !s1.isEmpty() || !s2.isEmpty()) {
+
+           
+            while (curr1 != null) {
+                s1.push(curr1);
+                curr1 = curr1.left;
+            }
+
+            while (curr2 != null) {
+                s2.push(curr2);
+                curr2 = curr2.left;
+            }
+
+         
+            if (s1.isEmpty() || s2.isEmpty()) {
+                break;
+            }
+
+            Node node1 = s1.peek();
+            Node node2 = s2.peek();
+
+            if (node1.data == node2.data) {
+                ans.add(node1.data);
+
+                curr1 = s1.pop().right;
+                curr2 = s2.pop().right;
+            }
+            else if (node1.data < node2.data) {
+                curr1 = s1.pop().right;
+            }
+            else {
+                curr2 = s2.pop().right;
+            }
+        }
+
+        return ans;
+    }
+}
