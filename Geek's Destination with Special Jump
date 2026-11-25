@@ -1,0 +1,102 @@
+////////////////////////////////                      Geek's Destination with Special Jump                        //////////////////////////////
+
+
+
+
+
+
+
+
+
+class Solution {
+    static final long MOD = 1000000007L;
+
+    
+    long timeToReach(long x, long a, long b) {
+        long p = a - b;
+
+        if (x <= a) {
+            return x;
+        }
+
+        long n = (x - a + p - 1) / p;
+
+        return n * (a + b) + x - n * p;
+    }
+
+   
+    long prefix(long m, long p) {
+        if (m <= 0) return 0;
+
+        long q = m / p;
+        long rem = m % p;
+
+        return p * q * (q + 1) / 2
+                + rem * (q + 1);
+    }
+
+   
+    long sumTime(long L, long R, long a, long b) {
+        if (L > R) return 0;
+
+        long count = R - L + 1;
+
+        long sumX = (L + R) * count / 2;
+
+        long sumCeil = 0;
+
+        if (R > a) {
+            long low = Math.max(L, a + 1);
+
+            sumCeil = prefix(R - a, a - b)
+                    - prefix(low - a - 1, a - b);
+        }
+
+        return sumX + 2 * b * sumCeil;
+    }
+
+    public long minTime(int a, int b, int d, int l, int r) {
+
+        long normal = timeToReach(d, a, b);
+
+        long k = normal - 1;
+
+        long cycle = a + b;
+        long net = a - b;
+
+        long cycles = k / cycle;
+        long rem = k % cycle;
+
+        long maxPos = cycles * net + Math.min(rem, (long) a);
+
+       
+        long first = Math.max((long) l, (long) d - maxPos);
+
+        long ans = 0;
+
+        long normalEnd = Math.min((long) r, first - 1);
+
+        if (normalEnd >= l) {
+            long cnt = normalEnd - l + 1;
+
+            ans = (cnt % MOD) * (normal % MOD) % MOD;
+        }
+
+     
+        if (first <= r) {
+            long L = d - r;
+            long R = d - first;
+
+            long cnt = r - first + 1;
+
+            long jumpSum = sumTime(L, R, a, b);
+
+           
+            jumpSum += cnt;
+
+            ans = (ans + jumpSum % MOD) % MOD;
+        }
+
+        return ans;
+    }
+}
