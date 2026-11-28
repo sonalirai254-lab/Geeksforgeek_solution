@@ -1,0 +1,34 @@
+//////////////////////////                        Path Exists Between Two Vertices                       /////////////////////////////
+
+
+
+
+
+
+
+
+class Solution {
+    public boolean checkPath(ArrayList<ArrayList<Integer>> adj, int src, int dest) {
+        boolean[] visited = new boolean[adj.size()];
+        return dfs(adj, src, dest, visited);
+    }
+
+    private boolean dfs(ArrayList<ArrayList<Integer>> adj, int src, int dest, boolean[] visited) {
+        if (src == dest) {
+            return true;
+        }
+
+        visited[src] = true;
+
+        for (int neighbor : adj.get(src)) {
+            if (!visited[neighbor]) {
+                if (dfs(adj, neighbor, dest, visited)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+}
+
